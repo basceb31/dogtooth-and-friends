@@ -17,8 +17,17 @@ A SvelteKit project for building a modern, performant web experience.
 ```bash
 npm install
 
-#
+```
+### 2. Run the server
 
 ```bash
 npm run dev
+
+#you can access the site via localhost:5173
+```
+
+### (Optional) Testing 
+```bash
+npm run test
+```
 
