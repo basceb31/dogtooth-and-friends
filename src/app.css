@@ -4,7 +4,6 @@
   Use Inter or a similarly clean, modern font.
   We keep the orange (#f48c06) from your site.
 */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;700&display=swap');
 
 :root {
   --color-bg: #0B0B0B;       /* dark background */
@@ -80,6 +79,7 @@ body {
 
 /* Headings in thicker weights, paragraphs in lighter. */
 h1, h2, h3 {
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
 }
 p {
