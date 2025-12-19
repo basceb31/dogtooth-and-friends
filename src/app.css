@@ -1,13 +1,13 @@
-@import 'tailwindcss';
-
-/* 
-  Use Inter or a similarly clean, modern font.
-  We keep the orange (#f48c06) from your site.
-*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
+  --primary-color: #f48c06;
+  --secondary-color: #ffbb33;
+  --main-font: 'Inter', sans-serif;
   --color-bg: #0B0B0B;       /* dark background */
-  --color-accent: #f48c06;   /* your orange accent */
+  --color-accent: var(--primary-color);   /* your orange accent */
   --color-text: #ffffff;     /* white text */
   --transition-speed: 0.25s;
 }
@@ -15,7 +15,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--main-font);
   background-color: var(--color-bg);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
@@ -180,7 +180,7 @@ footer {
   
   /* On hover, we highlight the border in orange and add a glow. */
   .project-card:hover::before {
-    border-color: #f48c06;        /* orange border */
+    border-color: var(--primary-color);        /* orange border */
     box-shadow: 0 0 10px rgba(244, 140, 6, 0.5); /* subtle glow */
   }
   

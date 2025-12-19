@@ -6,43 +6,183 @@
   export const prerender = true;
 </script>
 
-<!-- 1) Hero Section -->
+<script>
+  import { fade, slide } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
+  import { icons, services, testimonials } from '$lib/data';
+  import { images } from '$lib/images';
+
+  export const prerender = true;
+
+  let companyName = 'My Awesome Company';
+  let colorScheme = 'orange';
+
+  let prompt = '';
+  let generatedContent = '';
+  let isGenerating = false;
+
+  let industry = '';
+  let keywords = [];
+  let isGeneratingKeywords = false;
+
+  function generateContent() {
+    isGenerating = true;
+    setTimeout(() => {
+      generatedContent = `
+        <h3 class="text-xl font-semibold mb-4 text-white">The Surprising Benefits of Your Morning Coffee</h3>
+        <p class="text-gray-300 font-light mb-4">
+          That daily cup of coffee does more than just wake you up. Studies show it can improve brain function, boost your metabolism, and may even lower your risk of several diseases.
+        </p>
+        <p class="text-gray-300 font-light">
+          Packed with antioxidants, coffee is a complex beverage with a wide range of health benefits. So go ahead, enjoy that second cup.
+        </p>
+      `;
+      isGenerating = false;
+    }, 1500);
+  }
+
+  function critiqueContent() {
+    isGenerating = true;
+    setTimeout(() => {
+      generatedContent = `
+        <h3 class="text-xl font-semibold mb-4 text-white">Content Analysis Report</h3>
+        <p class="text-gray-300 font-light mb-4">
+          <strong>Overall:</strong> The page is strong, but could be more benefit-oriented.
+        </p>
+        <ul class="list-disc list-inside text-gray-300 font-light space-y-2">
+          <li><strong>Hero Section:</strong> The headline "Your Website, CRM, and SEO. Done in Seconds." is powerful. Consider adding a sub-headline that quantifies the benefit, like "Join 1,000+ businesses who launched their site in under a minute."</li>
+          <li><strong>Features Section:</strong> The three pillars are clear. The descriptions could be more evocative. For "Instant Website Builder," try "Go from a blank canvas to a masterpiece in a few clicks."</li>
+          <li><strong>CTA:</strong> "Create Your Website Now" is good. For a softer sell, you could test "See it in action."</li>
+        </ul>
+      `;
+      isGenerating = false;
+    }, 1500);
+  }
+
+  function getKeywords() {
+    isGeneratingKeywords = true;
+    setTimeout(() => {
+      if (industry.toLowerCase().includes('coffee')) {
+        keywords = [
+          'specialty coffee',
+          'local coffee shop',
+          'best espresso near me',
+          'fair trade coffee beans',
+          'cold brew delivery'
+        ];
+      } else if (industry.toLowerCase().includes('tech')) {
+        keywords = [
+          'SaaS solutions for small business',
+          'cloud-based CRM',
+          'AI-powered analytics',
+          'custom software development',
+          'IT consulting services'
+        ];
+      } else {
+        keywords = [
+          'local business marketing',
+          'how to grow my small business',
+          'digital marketing services',
+          'social media for business',
+          'online advertising'
+        ];
+      }
+      isGeneratingKeywords = false;
+    }, 1500);
+  }
+
+  function analyzeSeo() {
+    isGeneratingKeywords = true;
+    setTimeout(() => {
+      keywords = [
+        '<strong>Analysis:</strong> The page is missing a meta description. Adding one can improve click-through rates from search results.',
+        '<strong>Recommendation:</strong> Add a meta description of 150-160 characters that summarizes the page content and includes the primary keyword.',
+        '<strong>Opportunity:</strong> The page could target long-tail keywords like "all-in-one website builder for small business" to capture more specific search intent.'
+      ];
+      isGeneratingKeywords = false;
+    }, 1500);
+  }
+
+  let visualSuggestions = [];
+  let isGeneratingVisuals = false;
+
+  function getVisualSuggestions() {
+    isGeneratingVisuals = true;
+    setTimeout(() => {
+      visualSuggestions = [
+        {
+          title: 'Cool Blues Palette',
+          description: 'A modern and professional color scheme that evokes trust and calmness.',
+          action: { type: 'change_palette', primary: '#3b82f6', secondary: '#60a5fa' }
+        },
+        {
+          title: 'Serif Font',
+          description: 'A classic and elegant font that can give your site a more traditional and trustworthy feel.',
+          action: { type: 'change_font', font: 'Georgia, serif' }
+        },
+        {
+          title: 'Reset to Default',
+          description: 'Return to the original visual style.',
+          action: { type: 'reset_visuals' }
+        }
+      ];
+      isGeneratingVisuals = false;
+    }, 1500);
+  }
+
+  function applyVisualSuggestion(action) {
+    if (action.type === 'change_palette') {
+      document.documentElement.style.setProperty('--primary-color', action.primary);
+      document.documentElement.style.setProperty('--secondary-color', action.secondary);
+    } else if (action.type === 'change_font') {
+      document.documentElement.style.setProperty('--main-font', action.font);
+    } else if (action.type === 'reset_visuals') {
+      document.documentElement.style.setProperty('--primary-color', '#f48c06');
+      document.documentElement.style.setProperty('--secondary-color', '#ffbb33');
+      document.documentElement.style.setProperty('--main-font', 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif');
+    }
+  }
+</script>
+
+<!-- 1) Interactive Hero Section -->
 <section class="w-full bg-[#0B0B0B]">
   <div class="max-w-6xl mx-auto px-4 py-16 flex flex-col md:flex-row items-center justify-between gap-8">
-    <!-- Text Content -->
+    <!-- Text Content & Form -->
     <div class="md:w-1/2" in:fade={{ delay: 100 }}>
-      <span
-        class="inline-flex items-center mb-4 bg-[#f48c06]/20 text-[#f48c06] font-light px-3 py-1 rounded-full transition-250 hover-scale"
-      >
-        <span class="w-2 h-2 bg-[#f48c06] rounded-full inline-block mr-2"></span>
-        Available for New Projects
-      </span>
-
       <h1
         class="text-4xl md:text-5xl font-light leading-tight mb-4 transition-250"
         in:slide={{ delay: 200, easing: quintOut }}
       >
-        Helping you turn <br class="hidden md:block" />
-        <span class="text-[#f48c06]">ideas</span> into reality
+        Your Website, CRM, and SEO.
+        <br class="hidden md:block" />
+        <span class="text-[#f48c06]">Done in Seconds.</span>
       </h1>
 
       <p class="mt-2 text-gray-300 max-w-xl font-light">
-        We help you build and develop websites, web apps, mobile apps, and more.
-        Trusted for years in providing reliable digital solutions.
+        Go from idea to live website, complete with a customer management system and SEO tools, faster than ever before.
       </p>
 
-      <div class="flex space-x-8 mt-8" transition:slide={{ delay: 300 }}>
-        <div class="text-white">
-          <p class="text-2xl font-light">250+</p>
-          <p class="text-sm text-gray-400">Projects Delivered</p>
+      <div class="mt-8 space-y-4">
+        <div>
+          <label for="companyName" class="text-sm font-light text-gray-400">Company Name</label>
+          <input
+            type="text"
+            id="companyName"
+            bind:value={companyName}
+            class="w-full bg-[#1a1a1a] border border-[#2f2f2f] rounded-md px-3 py-2 text-white focus:ring-[#f48c06] focus:border-[#f48c06]"
+          />
         </div>
-        <div class="text-white">
-          <p class="text-2xl font-light">99%</p>
-          <p class="text-sm text-gray-400">Client Satisfaction</p>
-        </div>
-        <div class="text-white">
-          <p class="text-2xl font-light">24/7</p>
-          <p class="text-sm text-gray-400">Support Available</p>
+        <div>
+          <label for="colorScheme" class="text-sm font-light text-gray-400">Color Scheme</label>
+          <select
+            id="colorScheme"
+            bind:value={colorScheme}
+            class="w-full bg-[#1a1a1a] border border-[#2f2f2f] rounded-md px-3 py-2 text-white focus:ring-[#f48c06] focus:border-[#f48c06]"
+          >
+            <option value="orange">Orange</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+          </select>
         </div>
       </div>
 
@@ -51,276 +191,207 @@
         class="inline-block bg-[#f48c06] text-white font-semibold py-3 px-6 rounded-md mt-8 hover-scale transition-250"
         in:fade={{ delay: 400 }}
       >
-        Get Your Free Project Estimate
+        Start Your Free Trial
       </a>
     </div>
 
-    <!-- Animated Blob with Spikes -->
+    <!-- Live Preview -->
     <div class="md:w-1/2 flex justify-center" in:fade={{ delay: 500 }}>
-      <svg class="blob" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <path
-          fill="#0B0B0B"
-          d="M44.7,-76.5C58.2,-69.8,70,-56.6,77.6,-41.7C85.2,-26.8,88.6,-10.2,86.7,5.7C84.8,21.6,77.6,36.8,65.7,48.7C53.8,60.6,37.2,69.2,19.7,74.5C2.2,79.8,-16.2,81.8,-33.5,77.2C-50.8,72.6,-67,61.4,-76.5,46.7C-86,32,-88.8,13.6,-86.7,-3.7C-84.6,-21,-77.6,-37,-66.7,-50.7C-55.8,-64.4,-41,-75.6,-25.5,-80.2C-10,-84.8,6.2,-82.8,22.5,-77.2C38.8,-71.6,55.2,-62.4,44.7,-76.5Z"
-          transform="translate(100 100)"
-        >
-          <animate
-            attributeName="d"
-            dur="10s"
-            repeatCount="indefinite"
-            values="
-              M44.7,-76.5C58.2,-69.8,70,-56.6,77.6,-41.7C85.2,-26.8,88.6,-10.2,86.7,5.7C84.8,21.6,77.6,36.8,65.7,48.7C53.8,60.6,37.2,69.2,19.7,74.5C2.2,79.8,-16.2,81.8,-33.5,77.2C-50.8,72.6,-67,61.4,-76.5,46.7C-86,32,-88.8,13.6,-86.7,-3.7C-84.6,-21,-77.6,-37,-66.7,-50.7C-55.8,-64.4,-41,-75.6,-25.5,-80.2C-10,-84.8,6.2,-82.8,22.5,-77.2C38.8,-71.6,55.2,-62.4,44.7,-76.5Z;
-              M50.3,-78.2C65.1,-69.5,77.5,-54.8,82.7,-38.2C87.9,-21.6,85.9,-3.2,80.5,14.7C75.1,32.6,66.3,49.4,53.2,62.7C40.1,76,22.7,85.8,4.2,84.5C-14.3,83.2,-34.6,70.8,-49.2,57.2C-63.8,43.6,-72.7,28.8,-76.5,12.3C-80.3,-4.2,-79,17.8,-72.5,36.7C-66,55.6,-54.3,71.4,-39.5,80.2C-24.7,89,-12.3,90.8,1.5,89.7C15.3,88.6,30.6,84.5,50.3,-78.2Z;
-              M46.2,-74.5C60.1,-66.8,71.8,-54.2,78.3,-39.2C84.8,-24.2,86.1,-6.8,82.7,9.7C79.3,26.2,71.2,41.8,58.5,55.2C45.8,68.6,28.5,79.8,10.2,82.5C-8.1,85.2,-27.3,79.4,-42.5,69.2C-57.7,59,-68.9,44.4,-74.5,28.2C-80.1,12,-80.1,-5.8,-74.5,-22.2C-68.9,-38.6,-57.7,-53.4,-43.5,-64.2C-29.3,-75,-14.6,-81.8,0.5,-82.5C15.6,-83.2,31.2,-77.8,46.2,-74.5Z;
-              M44.7,-76.5C58.2,-69.8,70,-56.6,77.6,-41.7C85.2,-26.8,88.6,-10.2,86.7,5.7C84.8,21.6,77.6,36.8,65.7,48.7C53.8,60.6,37.2,69.2,19.7,74.5C2.2,79.8,-16.2,81.8,-33.5,77.2C-50.8,72.6,-67,61.4,-76.5,46.7C-86,32,-88.8,13.6,-86.7,-3.7C-84.6,-21,-77.6,-37,-66.7,-50.7C-55.8,-64.4,-41,-75.6,-25.5,-80.2C-10,-84.8,6.2,-82.8,22.5,-77.2C38.8,-71.6,55.2,-62.4,44.7,-76.5Z"
-          />
-        </path>
-        <!-- Spikes as a separate path -->
-        <path
-          fill="none"
-          stroke="url(#glowGradient)"
-          stroke-width="4"
-          d="M44.7,-76.5C58.2,-69.8,70,-56.6,77.6,-41.7C85.2,-26.8,88.6,-10.2,86.7,5.7C84.8,21.6,77.6,36.8,65.7,48.7C53.8,60.6,37.2,69.2,19.7,74.5C2.2,79.8,-16.2,81.8,-33.5,77.2C-50.8,72.6,-67,61.4,-76.5,46.7C-86,32,-88.8,13.6,-86.7,-3.7C-84.6,-21,-77.6,-37,-66.7,-50.7C-55.8,-64.4,-41,-75.6,-25.5,-80.2C-10,-84.8,6.2,-82.8,22.5,-77.2C38.8,-71.6,55.2,-62.4,44.7,-76.5Z"
-          transform="translate(100 100)"
-        >
-          <animate
-            attributeName="d"
-            dur="10s"
-            repeatCount="indefinite"
-            values="
-              M44.7,-76.5C58.2,-69.8,70,-56.6,77.6,-41.7C85.2,-26.8,88.6,-10.2,86.7,5.7C84.8,21.6,77.6,36.8,65.7,48.7C53.8,60.6,37.2,69.2,19.7,74.5C2.2,79.8,-16.2,81.8,-33.5,77.2C-50.8,72.6,-67,61.4,-76.5,46.7C-86,32,-88.8,13.6,-86.7,-3.7C-84.6,-21,-77.6,-37,-66.7,-50.7C-55.8,-64.4,-41,-75.6,-25.5,-80.2C-10,-84.8,6.2,-82.8,22.5,-77.2C38.8,-71.6,55.2,-62.4,44.7,-76.5Z;
-              M50.3,-78.2C65.1,-69.5,77.5,-54.8,82.7,-38.2C87.9,-21.6,85.9,-3.2,80.5,14.7C75.1,32.6,66.3,49.4,53.2,62.7C40.1,76,22.7,85.8,4.2,84.5C-14.3,83.2,-34.6,70.8,-49.2,57.2C-63.8,43.6,-72.7,28.8,-76.5,12.3C-80.3,-4.2,-79,17.8,-72.5,36.7C-66,55.6,-54.3,71.4,-39.5,80.2C-24.7,89,-12.3,90.8,1.5,89.7C15.3,88.6,30.6,84.5,50.3,-78.2Z;
-              M46.2,-74.5C60.1,-66.8,71.8,-54.2,78.3,-39.2C84.8,-24.2,86.1,-6.8,82.7,9.7C79.3,26.2,71.2,41.8,58.5,55.2C45.8,68.6,28.5,79.8,10.2,82.5C-8.1,85.2,-27.3,79.4,-42.5,69.2C-57.7,59,-68.9,44.4,-74.5,28.2C-80.1,12,-80.1,-5.8,-74.5,-22.2C-68.9,-38.6,-57.7,-53.4,-43.5,-64.2C-29.3,-75,-14.6,-81.8,0.5,-82.5C15.6,-83.2,31.2,-77.8,46.2,-74.5Z;
-              M44.7,-76.5C58.2,-69.8,70,-56.6,77.6,-41.7C85.2,-26.8,88.6,-10.2,86.7,5.7C84.8,21.6,77.6,36.8,65.7,48.7C53.8,60.6,37.2,69.2,19.7,74.5C2.2,79.8,-16.2,81.8,-33.5,77.2C-50.8,72.6,-67,61.4,-76.5,46.7C-86,32,-88.8,13.6,-86.7,-3.7C-84.6,-21,-77.6,-37,-66.7,-50.7C-55.8,-64.4,-41,-75.6,-25.5,-80.2C-10,-84.8,6.2,-82.8,22.5,-77.2C38.8,-71.6,55.2,-62.4,44.7,-76.5Z"
-          />
-        </path>
-        <!-- Spikes -->
-        <path
-          class="spikes"
-          fill="none"
-          stroke="url(#glowGradient)"
-          stroke-width="2"
-          d="M0,100 L10,90 L20,100 L30,110 L40,100 L50,90 L60,100 L70,110 L80,100 L90,90 L100,100 L110,110 L120,100 L130,90 L140,100 L150,110 L160,100 L170,90 L180,100 L190,110 L200,100"
-          transform="translate(0 0)"
-        >
-          <animate
-            attributeName="d"
-            dur="10s"
-            repeatCount="indefinite"
-            values="
-              M0,100 L10,90 L20,100 L30,110 L40,100 L50,90 L60,100 L70,110 L80,100 L90,90 L100,100 L110,110 L120,100 L130,90 L140,100 L150,110 L160,100 L170,90 L180,100 L190,110 L200,100;
-              M0,100 L10,95 L20,100 L30,105 L40,100 L50,95 L60,100 L70,105 L80,100 L90,95 L100,100 L110,105 L120,100 L130,95 L140,100 L150,105 L160,100 L170,95 L180,100 L190,105 L200,100;
-              M0,100 L10,92 L20,100 L30,108 L40,100 L50,92 L60,100 L70,108 L80,100 L90,92 L100,100 L110,108 L120,100 L130,92 L140,100 L150,108 L160,100 L170,92 L180,100 L190,108 L200,100;
-              M0,100 L10,90 L20,100 L30,110 L40,100 L50,90 L60,100 L70,110 L80,100 L90,90 L100,100 L110,110 L120,100 L130,90 L140,100 L150,110 L160,100 L170,90 L180,100 L190,110 L200,100"
-          />
-        </path>
-      </svg>
-    </div>
-  </div>
-</section>
-
-<!-- 2) Advanced Services Section -->
-<section class="w-full py-16 relative overflow-hidden">
-  <div class="absolute inset-0 -z-10 dotted-bg"></div>
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl md:text-4xl font-light mb-8 text-center" in:fade>
-      Our Advanced Services
-    </h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {#each services as feat, i (feat.title)}
-        <div
-          class="relative overflow-hidden rounded-lg border border-[#2f2f2f] hover-scale transition-250"
-          style="min-height: 280px;"
-          in:slide={{ delay: 150 * (i + 1) }}
-        >
-          <div
-            class="absolute inset-0 bg-center bg-cover"
-            style="background-image: url({feat.image}); filter: brightness(0.5);"
-          ></div>
-          <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/70"></div>
-          <div class="relative p-6 flex flex-col justify-end h-full">
-            <h3 class="text-xl font-semibold mb-2 text-white">{feat.title}</h3>
-            <p class="text-sm text-gray-300">{feat.description}</p>
-			<div class="mt-4">
-				<a href="/services" class="text-sm font-semibold text-[#f48c06] hover:underline">{feat.cta} →</a>
-			</div>
+      <div class="w-full max-w-md h-80 bg-[#1a1a1a] rounded-lg shadow-lg p-4 border border-[#2f2f2f]">
+        <div class="h-full border-2 border-dashed border-gray-600 rounded-md p-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold" style="color: {colorScheme === 'orange' ? '#f48c06' : colorScheme === 'blue' ? '#3b82f6' : '#10b981'}">{companyName}</h2>
+            <div class="flex space-x-2">
+              <div class="w-12 h-4 bg-gray-500 rounded-full"></div>
+              <div class="w-12 h-4 bg-gray-500 rounded-full"></div>
+            </div>
           </div>
-        </div>
-      {/each}
-    </div>
-  </div>
-</section>
-
-<!-- 3) How It Works Section -->
-<section class="w-full py-20 bg-[#0B0B0B] min-h-[700px] md:min-h-[850px]">
-  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-start gap-12">
-    <div class="md:w-1/2">
-      <h2 class="text-3xl md:text-4xl font-light mb-4">How It Works</h2>
-      <p class="text-gray-300 font-light mb-6">
-        Experience a smooth, transparent process for developing powerful digital solutions.
-      </p>
-      <div class="space-y-14 relative pl-10">
-        <div class="absolute top-0 bottom-0 left-4 border-l border-gray-600" style="margin-left: 7px;"></div>
-        <div class="relative flex items-start">
-          <div 
-            class="w-12 h-12 flex-shrink-0 rounded-full bg-[#f48c06] flex items-center justify-center text-white animate-step"
-            style="margin-left: -2rem;"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              {@html icons.consultation}
-            </svg>
-          </div>
-          <div class="ml-4">
-            <h3 class="text-lg font-semibold text-[#f48c06] mb-1">Consultation & Planning</h3>
-            <p class="text-gray-300 font-light">
-              Share your project needs and vision with us. We’ll chart a roadmap tailored to your goals.
-            </p>
-          </div>
-        </div>
-        <div class="relative flex items-start">
-          <div 
-            class="w-12 h-12 flex-shrink-0 rounded-full bg-[#f48c06] flex items-center justify-center text-white animate-step delay-[150ms]"
-            style="margin-left: -2rem;"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              {@html icons.development}
-            </svg>
-          </div>
-          <div class="ml-4">
-            <h3 class="text-lg font-semibold text-[#f48c06] mb-1">Design & Development</h3>
-            <p class="text-gray-300 font-light">
-              Our team crafts intuitive interfaces and solid architectures, ensuring efficiency and scalability.
-            </p>
-          </div>
-        </div>
-        <div class="relative flex items-start">
-          <div 
-            class="w-12 h-12 flex-shrink-0 rounded-full bg-[#f48c06] flex items-center justify-center text-white animate-step delay-[300ms]"
-            style="margin-left: -2rem;"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              {@html icons.launch}
-            </svg>
-          </div>
-          <div class="ml-4">
-            <h3 class="text-lg font-semibold text-[#f48c06] mb-1">Launch & Ongoing Support</h3>
-            <p class="text-gray-300 font-light">
-              We deploy your solution and remain on standby for continuous improvements and updates.
-            </p>
+          <div class="mt-4 h-32 bg-gray-700 rounded-md"></div>
+          <div class="mt-4 grid grid-cols-3 gap-4">
+            <div class="h-16 bg-gray-600 rounded-md"></div>
+            <div class="h-16 bg-gray-600 rounded-md"></div>
+            <div class="h-16 bg-gray-600 rounded-md"></div>
           </div>
         </div>
       </div>
     </div>
-    <div class="md:w-1/2 relative overflow-visible flex justify-center">
-      <img
-        src="https://images.unsplash.com/photo-1593642532973-d31b6557fa68?auto=format&fit=crop&w=800"
-        alt="Team Meeting"
-        class="rounded-lg shadow-md max-w-full brightness-50"
-        style="width: 100%; max-width: 500px; object-fit: cover;"
-      />
-      <div
-        class="absolute bottom-4 left-10 bg-[#f48c06] text-white p-4 rounded-md shadow-xl"
-        style="min-width: 200px;"
-      >
-        <p class="text-xl font-bold mb-1">3+</p>
-        <p class="text-xs font-light">Years of Experience</p>
-        <p class="text-xl font-bold mt-3">150+</p>
-        <p class="text-xs font-light">Projects Delivered</p>
+  </div>
+</section>
+
+<!-- 2) Features Section -->
+<section class="w-full py-20 bg-[#111111]">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-light mb-12 text-center">Everything you need, in one place.</h2>
+    <div class="grid md:grid-cols-3 gap-12 text-center">
+      <!-- Feature 1: Website Builder -->
+      <div class="flex flex-col items-center" in:fade={{ delay: 150 }}>
+        <div class="w-16 h-16 rounded-full bg-[#f48c06] flex items-center justify-center text-white mb-4">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            {@html icons.development}
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Instant Website Builder</h3>
+        <p class="text-gray-400 font-light">Create a professional, stunning website in seconds. No code required.</p>
+      </div>
+      <!-- Feature 2: CRM -->
+      <div class="flex flex-col items-center" in:fade={{ delay: 300 }}>
+        <div class="w-16 h-16 rounded-full bg-[#f48c06] flex items-center justify-center text-white mb-4">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            {@html icons.consultation}
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Integrated CRM</h3>
+        <p class="text-gray-400 font-light">Manage your customers, leads, and projects from a single, intuitive dashboard.</p>
+      </div>
+      <!-- Feature 3: SEO -->
+      <div class="flex flex-col items-center" in:fade={{ delay: 450 }}>
+        <div class="w-16 h-16 rounded-full bg-[#f48c06] flex items-center justify-center text-white mb-4">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            {@html icons.launch}
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Automated SEO</h3>
+        <p class="text-gray-400 font-light">Climb the search rankings with powerful, automated SEO tools built right in.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 4) Elevate Your Brand Section -->
-<section class="w-full py-16 relative overflow-hidden">
-  <div
-    class="absolute inset-0 -z-10"
-    style="
-      background-color: #111111; 
-      background-image: radial-gradient(
-        circle at 1px 1px, 
-        rgba(255,255,255,0.03) 1px, 
-        transparent 0
-      ); 
-      background-size: 20px 20px;
-    "
-  ></div>
-  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-8">
-    <div class="md:w-1/2">
-      <h2 class="text-3xl md:text-4xl font-light mb-4">Elevate Your Brand</h2>
-      <p class="text-gray-300 mb-4">
-        From personal portfolios to enterprise-level platforms, our marketing expertise helps you stand out in a crowded digital space.
-      </p>
-      <p class="text-gray-300">
-        Gain more leads, optimize conversions, and let your story shine with targeted campaigns backed by data and creativity.
-      </p>
-    </div>
-    <div class="md:w-1/2 flex justify-center">
-      <img
-        src="https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?auto=format&fit=crop&w=800"
-        alt="Marketing illustration"
-        class="rounded-md shadow-md hover-scale transition-250"
-        style="max-height: 300px; object-fit: cover;"
-      />
-    </div>
-  </div>
 </section>
 
-<!-- 5) Recent Projects Section -->
-<section class="w-full py-16 bg-[#0B0B0B]">
+<!-- 3) AI Content Agent Section -->
+<section class="w-full py-20 bg-[#0B0B0B]">
   <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl md:text-4xl font-light mb-8" in:fade>Recent Projects</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {#each projects as project, i (project.title)}
-        <div
-          class="relative overflow-hidden rounded-lg border border-[#2f2f2f] hover-scale transition-250"
-          style="min-height: 320px;"
-          in:slide={{ delay: 200 * (i + 1) }}
-        >
-          <div
-            class="absolute inset-0 bg-cover bg-center"
-            style="background-image: url({project.image}); filter: brightness(0.6);"
-          ></div>
-          <div 
-            class="absolute inset-0 bg-gradient-to-b from-transparent to-black/70"
-          ></div>
-          <div class="relative p-6 flex flex-col justify-end h-full">
-            <h3 class="text-xl font-light text-[#f48c06] mb-2">
-              {project.title}
-            </h3>
-            <p class="text-gray-300 font-light mb-4">
-              {project.description}
-            </p>
-            <a
-              href="/case-studies"
-              class="inline-block text-white border border-[#2f2f2f] backdrop-blur font-semibold py-3 px-6 rounded-md hover:bg-black transition-250"
+    <h2 class="text-3xl md:text-4xl font-light mb-12 text-center">Your AI Content Assistant</h2>
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <!-- Agent Interaction -->
+      <div>
+        <p class="text-gray-400 font-light mb-4">
+          Stuck on what to write? Let our AI agent craft compelling content for you. Just provide a topic, and watch the magic happen.
+        </p>
+        <div class="space-y-4">
+          <textarea
+            bind:value={prompt}
+            placeholder="e.g., 'Write a blog post about the benefits of drinking coffee'"
+            class="w-full h-24 bg-[#1a1a1a] border border-[#2f2f2f] rounded-md px-3 py-2 text-white focus:ring-[#f48c06] focus:border-[#f48c06]"
+          ></textarea>
+          <div class="flex space-x-4">
+            <button
+              on:click={generateContent}
+              disabled={isGenerating}
+              class="w-full bg-[#f48c06] text-white font-semibold py-3 px-6 rounded-md hover-scale transition-250 disabled:opacity-50"
             >
-              View Case Study →
-            </a>
+              {isGenerating ? 'Generating...' : 'Generate Content'}
+            </button>
+            <button
+              on:click={critiqueContent}
+              disabled={isGenerating}
+              class="w-full border border-[#f48c06] text-[#f48c06] font-semibold py-3 px-6 rounded-md hover:bg-[#f48c06] hover:text-white transition-250 disabled:opacity-50"
+            >
+              Critique Page Content
+            </button>
           </div>
         </div>
-      {/each}
+      </div>
+      <!-- Generated Content -->
+      <div class="h-80 bg-[#1a1a1a] border border-[#2f2f2f] rounded-lg p-6 overflow-y-auto">
+        {#if generatedContent}
+          {@html generatedContent}
+        {:else}
+          <div class="text-gray-500">Your generated content will appear here...</div>
+        {/if}
+      </div>
     </div>
   </div>
 </section>
 
-<!-- 5.5) Testimonials Section -->
-<section class="w-full py-16 bg-[#111111]">
+</section>
+
+<!-- 4) AI SEO Agent Section -->
+<section class="w-full py-20 bg-[#111111]">
   <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl md:text-4xl font-light mb-8 text-center" in:fade>What Our Clients Say</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {#each testimonials as testimonial, i (testimonial.author)}
-        <div
-          class="bg-[#0B0B0B] border border-[#2f2f2f] rounded-lg p-6 flex flex-col justify-between hover-scale transition-250"
-          in:slide={{ delay: 200 * (i + 1) }}
-        >
-          <p class="text-gray-300 font-light mb-4">"{testimonial.content}"</p>
-          <div>
-            <p class="text-white font-semibold">{testimonial.author}</p>
-            <p class="text-sm text-[#f48c06]">{testimonial.title}</p>
+    <h2 class="text-3xl md:text-4xl font-light mb-12 text-center">Dominate Search with AI Keywords</h2>
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <!-- Keyword Display -->
+      <div class="h-80 bg-[#1a1a1a] border border-[#2f2f2f] rounded-lg p-6 overflow-y-auto">
+        {#if keywords.length}
+          <ul class="space-y-2">
+            {#each keywords as keyword}
+              <li class="bg-[#0B0B0B] p-2 rounded-md text-white font-light">{keyword}</li>
+            {/each}
+          </ul>
+        {:else}
+          <div class="text-gray-500">Your suggested keywords will appear here...</div>
+        {/if}
+      </div>
+      <!-- Agent Interaction -->
+      <div>
+        <p class="text-gray-400 font-light mb-4">
+          Not sure what keywords to target? Our AI agent will analyze your industry and suggest high-impact keywords to improve your search ranking.
+        </p>
+        <div class="space-y-4">
+          <input
+            type="text"
+            bind:value={industry}
+            placeholder="e.g., 'Coffee Shop'"
+            class="w-full bg-[#1a1a1a] border border-[#2f2f2f] rounded-md px-3 py-2 text-white focus:ring-[#f48c06] focus:border-[#f48c06]"
+          />
+          <div class="flex space-x-4">
+            <button
+              on:click={getKeywords}
+              disabled={isGeneratingKeywords}
+              class="w-full bg-[#f48c06] text-white font-semibold py-3 px-6 rounded-md hover-scale transition-250 disabled:opacity-50"
+            >
+              {isGeneratingKeywords ? 'Analyzing...' : 'Get Keywords'}
+            </button>
+            <button
+              on:click={analyzeSeo}
+              disabled={isGeneratingKeywords}
+              class="w-full border border-[#f48c06] text-[#f48c06] font-semibold py-3 px-6 rounded-md hover:bg-[#f48c06] hover:text-white transition-250 disabled:opacity-50"
+            >
+              Analyze Page SEO
+            </button>
           </div>
         </div>
-      {/each}
+      </div>
     </div>
+  </div>
+</section>
+
+</section>
+
+<!-- 5) AI Visual Designer Section -->
+<section class="w-full py-20 bg-[#0B0B0B]">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-light mb-12 text-center">Your AI Design Consultant</h2>
+    <div class="text-center">
+      <p class="text-gray-400 font-light mb-4">
+        Let our AI design agent suggest visual improvements to make your site truly stand out.
+      </p>
+      <button
+        on:click={getVisualSuggestions}
+        disabled={isGeneratingVisuals}
+        class="bg-[#f48c06] text-white font-semibold py-3 px-6 rounded-md hover-scale transition-250 disabled:opacity-50"
+      >
+        {isGeneratingVisuals ? 'Analyzing...' : 'Suggest Visual Improvements'}
+      </button>
+    </div>
+    {#if visualSuggestions.length}
+      <div class="mt-12 grid md:grid-cols-3 gap-8">
+        {#each visualSuggestions as suggestion}
+          <div class="bg-[#1a1a1a] border border-[#2f2f2f] rounded-lg p-6 text-center">
+            <h3 class="text-lg font-semibold text-white mb-2">{suggestion.title}</h3>
+            <p class="text-gray-400 font-light mb-4">{suggestion.description}</p>
+            <button
+              on:click={() => applyVisualSuggestion(suggestion.action)}
+              class="w-full bg-transparent border border-[#f48c06] text-[#f48c06] font-semibold py-2 px-4 rounded-md hover:bg-[#f48c06] hover:text-white transition-250"
+            >
+              Apply
+            </button>
+          </div>
+        {/each}
+      </div>
+    {/if}
   </div>
 </section>
 
@@ -336,7 +407,7 @@
       class="inline-block bg-[#f48c06] text-white font-bold py-4 px-8 rounded-md hover-scale transition-250 text-lg"
       in:fade
     >
-      Get Started Now
+      Create Your Website Now
     </a>
   </div>
 </section>

@@ -31,28 +31,15 @@ export const services = [
   }
 ];
 
-export const projects = [
-  {
-    title: "Portfolio Platform",
-    description: "Modern portfolio for creative professionals",
-    image: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=800"
-  },
-  {
-    title: "E-commerce Store",
-    description: "Fully featured online clothing store",
-    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800"
-  }
-];
-
 export const testimonials = [
   {
-    author: 'John Doe',
-    title: 'CEO, Example Inc.',
-    content: 'Dogtooth & Friends transformed our online presence. Their expertise in web development and design is unmatched. We saw a 200% increase in engagement after launching our new site.'
+    author: 'Sarah Johnson',
+    title: 'Owner, The Cozy Corner Cafe',
+    content: 'I had a beautiful, functional website up and running in minutes. The built-in CRM is a game-changer for my small business. I finally feel in control of my online presence.'
   },
   {
-    author: 'Jane Smith',
-    title: 'Marketing Director, Creative Co.',
-    content: 'Working with Dogtooth & Friends was a dream. They are true professionals who are passionate about what they do. I would recommend them to anyone looking for a top-notch digital agency.'
+    author: 'David Lee',
+    title: 'Founder, TechForward Solutions',
+    content: 'The speed and simplicity of this platform are incredible. We were able to launch our new marketing site in a single afternoon, and the automated SEO tools have already started to show results.'
   }
 ];
